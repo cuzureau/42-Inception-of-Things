@@ -4,7 +4,7 @@ qemu-img create -f qcow2 -o preallocation=off iot.qcow2 100G
 
 -- 2 le transferer au goinfre --
 
-mv iot.qco2 ~/goinfre
+mv iot.qcow2 ~/goinfre
 
 -- 3 Creer un fichier.sh avec dedans ca, et l'executer --
 
@@ -26,4 +26,6 @@ rsync --info=progress2-avz ~/goinfre/iot.qcow2 [Clef_usb]
 
 -- 5 recopier ensuite clef -> goinfre / ou en local --
 
--- 6, repeter le step 3 --
+rsync --info=progress2-avz [clef_usb/qcow] ~/goinfre/
+
+-- 6, repeter le step 3,4,5,6 --
