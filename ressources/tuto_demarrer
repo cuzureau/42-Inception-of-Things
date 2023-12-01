@@ -1,0 +1,29 @@
+-- 1 Creation du qcow2 --
+
+qemu-img create -f qcow2 -o preallocation=off iot.qcow2 100G
+
+-- 2 le transferer au goinfre --
+
+mv iot.qco2 ~/goinfre
+
+-- 3 Creer un fichier.sh avec dedans ca, et l'executer --
+
+qemu-system-x86_64 \
+                -hda ~/goinfre/iot.qcow2 \
+                -enable-kvm \
+                -machine q35 \
+                -cpu host \
+                -m 12G \
+                -smp $(nproc) \
+                -net user,hostfwd=tcp::5000-:22,hostfwd=tcp::8080-:80 \
+                -net nic \
+                -cdrom ~/sgoinfre/debian-12.2.0-amd64-netinst.iso 
+
+
+-- 4 une fois fini le taff, recuperer le qcow2 sur la clef avec la commande --
+
+rsync --info=progress2-avz ~/goinfre/iot.qcow2 [Clef_usb]
+
+-- 5 recopier ensuite clef -> goinfre / ou en local --
+
+-- 6, repeter le step 3 --
