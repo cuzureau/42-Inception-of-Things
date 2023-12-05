@@ -22,10 +22,12 @@ qemu-system-x86_64 \
 
 -- 4 une fois fini le taff, recuperer le qcow2 sur la clef avec la commande --
 
-rsync --info=progress2 -avz ~/goinfre/iot.qcow2 [Clef_usb]
+-a fais une bonne copie sans pertes
+
+cp -a ~/goinfre/iot.qcow2 /media/login/clef_usb
 
 -- 5 recopier ensuite clef -> goinfre / ou en local --
 
-rsync --info=progress2 -avz [clef_usb/qcow] ~/goinfre/
+cp -a /media/login/clef_usb/iot.qcow2 ~/goinfre/
 
 -- 6, repeter le step 3,4,5,6 --
