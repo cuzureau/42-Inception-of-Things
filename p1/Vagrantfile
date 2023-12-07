@@ -1,0 +1,48 @@
+MASTER_NAME = "cuzureauS" # VM "Server"
+WORKER_NAME = "cuzureauSW" # VM "Server Worker"
+
+MASTER_IP = "192.168.56.110"
+WORKER_IP = "192.168.56.111"
+
+VM_PROVIDER = "virtualbox"
+VM_MEMORY = 1024 # RAM
+VM_CPUS = 1
+
+PATH_SHARED_FOLDER = "/vagrant"
+
+Vagrant.configure("2") do |config| # "2" => version de la configuration
+  config.vm.box = "generic/ubuntu2204" # Ubuntu LTS (https://vagrantcloud.com/search)
+  config.vm.synced_folder "shared", PATH_SHARED_FOLDER # Dossier partagé entre les 2 VMs
+
+  # Configuration de la première VM (contrôleur K3s)
+  config.vm.define MASTER_NAME do |master|
+    master.vm.hostname =  MASTER_NAME 
+    config.vm.network "private_network", ip: MASTER_IP # Réseau privé accessible par IP
+    config.vm.provider VM_PROVIDER do | vb |
+      vb.memory = VM_MEMORY
+      vb.cpus = VM_CPUS
+      # vb.gui = true
+    end
+    # Configuration du provisionnement pour installer K3s
+    master.vm.provision "shell", inline: <<-SHELL
+      curl -sfL https://get.k3s.io | sh - # Script d'installation de K3s
+      sudo mkdir -p #{PATH_SHARED_FOLDER}
+      sudo cp /var/lib/rancher/k3s/server/node-token #{PATH_SHARED_FOLDER}
+    SHELL
+  end
+
+  # Configuration de la deuxième VM (agent K3s)
+  config.vm.define WORKER_NAME do |worker|
+    worker.vm.hostname = WORKER_NAME 
+    config.vm.network "private_network", ip: WORKER_IP # Réseau privé accessible par IP
+    config.vm.provider VM_PROVIDER do | vb |
+      vb.memory = VM_MEMORY
+      vb.cpus = VM_CPUS
+      # vb.gui = true
+    end
+    # Configuration du provisionnement pour rejoindre le cluster K3s
+    worker.vm.provision "shell", inline: <<-SHELL
+      curl -sfL https://get.k3s.io | K3S_URL=https://#{MASTER_IP}:6443 K3S_TOKEN=$(cat #{PATH_SHARED_FOLDER}/node-token) sh -
+    SHELL
+  end
+end

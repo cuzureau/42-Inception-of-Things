@@ -1,2 +1,4 @@
 ./start_vm_local.sh
 ./vm/*
+*/.vagrant/*
+./p1/shared/node-token
