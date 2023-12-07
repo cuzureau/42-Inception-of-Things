@@ -2,3 +2,4 @@
 ./vm/*
 */.vagrant/*
 ./p1/shared/node-token
+iot.qcow2
