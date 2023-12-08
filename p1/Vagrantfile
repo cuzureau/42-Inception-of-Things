@@ -4,14 +4,14 @@ WORKER_NAME = "cuzureauSW" # VM "Server Worker"
 MASTER_IP = "192.168.56.110"
 WORKER_IP = "192.168.56.111"
 
-VM_PROVIDER = "virtualbox"
+VM_PROVIDER = "libvirt"
 VM_MEMORY = 1024 # RAM
 VM_CPUS = 1
 
 PATH_SHARED_FOLDER = "/vagrant"
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
-  config.vm.box = "generic/ubuntu2204" # Ubuntu LTS (https://vagrantcloud.com/search)
+  config.vm.box = "techchad2022/ubuntu2204" # Ubuntu Server LTS (https://vagrantcloud.com/search)
   config.vm.synced_folder "shared", PATH_SHARED_FOLDER # Dossier partagé entre les 2 VMs
 
   # Configuration de la première VM (contrôleur K3s)
