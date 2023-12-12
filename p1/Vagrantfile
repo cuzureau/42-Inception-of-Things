@@ -4,7 +4,7 @@ WORKER_NAME = "cuzureauSW" # VM "Server Worker"
 MASTER_IP = "192.168.56.110"
 WORKER_IP = "192.168.56.111"
 
-VM_PROVIDER = ":libvirt"
+VM_PROVIDER = "virtualbox"
 VM_MEMORY = 1024 # RAM
 VM_CPUS = 1
 
@@ -16,10 +16,10 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
   config.vm.box_version = "4.3.8"
   config.vm.synced_folder "shared", PATH_SHARED_FOLDER # Dossier partagé entre les 2 VMs
 
-  config.vm.provider VM_PROVIDER do | libvirt |
-      libvirt.memory = VM_MEMORY
-      libvirt.cpus = VM_CPUS
-      # libvirt.gui = true
+  config.vm.provider VM_PROVIDER do | vb |
+      vb.memory = VM_MEMORY
+      vb.cpus = VM_CPUS
+      # vb.gui = true
     end
 
   # Configuration de la première VM (contrôleur K3s)
