@@ -30,6 +30,10 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     master.vm.provision "shell", inline: <<-SHELL
       curl -sfL https://get.k3s.io | sh - # Script d'installation de K3s
       sudo mkdir -p #{PATH_SHARED_FOLDER}
+      # Boucle pour attendre la création du fichier node-token
+      while [ ! -f /var/lib/rancher/k3s/server/node-token ]; do
+        sleep 1
+      done
       sudo cp /var/lib/rancher/k3s/server/node-token #{PATH_SHARED_FOLDER}
     SHELL
   end
