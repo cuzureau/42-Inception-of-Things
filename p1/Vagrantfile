@@ -11,7 +11,9 @@ VM_CPUS = 1
 PATH_SHARED_FOLDER = "/vagrant"
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
-  config.vm.box = "techchad2022/ubuntu2204" # Ubuntu Server LTS (https://vagrantcloud.com/search)
+
+  config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
+  config.vm.box_version = "4.3.8"
   config.vm.synced_folder "shared", PATH_SHARED_FOLDER # Dossier partagé entre les 2 VMs
 
   # Configuration de la première VM (contrôleur K3s)
