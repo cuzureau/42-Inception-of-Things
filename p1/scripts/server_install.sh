@@ -9,11 +9,11 @@ sh -s - --write-kubeconfig-mode 644 \
     --flannel-iface=eth1
     
 # Boucle pour attendre la création du token par K3s
-while [ ! -f $PATH_K3S_TOKEN ]; do
+while [ ! -f $K3S_TOKEN ]; do
   sleep 1
 done
 
 # Copie du token K3s dans le dossier partage entre toutes les VMs
-sudo cp $PATH_K3S_TOKEN /$PATH_SHARED_FOLDER
+sudo cp $K3S_TOKEN /$SYNCED_FOLDER
 
 echo "[$(hostname)] Configured succesfully"
