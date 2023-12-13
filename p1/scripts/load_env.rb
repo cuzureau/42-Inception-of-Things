@@ -1,6 +1,6 @@
 puts "yoooooooooooooooooo"
 # Import de l'environnement
-if File.exist?('../confs/env.sh')
+if File.exist?('./confs/env.sh')
   puts "FILE EXISTS"
   File.foreach('../confs/env.sh') do |line|
     # Ignorer les lignes vides ou les lignes de commentaire
