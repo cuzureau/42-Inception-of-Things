@@ -1,36 +1,76 @@
-require_relative './scripts/load_env.rb'
+#require_relative './scripts/load_env.rb'
+
+
+
+Vagrant.configure("2") do |config| # "2" => version de la configuration
+
+  config.vm.define "cuzureauS" do |server|
+    server.vm.box = "generic/alpine319"
+    server.vm.network "private_network", ip: "192.168.56.110"
+    server.vm.synced_folder "shared", "/vagrant"
+    server.vm.provision "K3S Controller Mode", type: "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>"192.168.56.110", "PATH_K3S_TOKEN"=>"/var/lib/rancher/k3s/server/node-token", "PATH_SHARED_FOLDER"=>"/vagrant"}
+    server.vm.hostname = "cuzureauS"
+    server.vm.provider "virtualbox" do |vb|
+      vb.name = "cuzureauS"
+      vb.memory = 1024
+      vb.cpus = 1 
+      end
+  end
+
+  config.vm.define "cuzureauSW" do |agent|
+    agent.vm.box = "generic/alpine319"
+    agent.vm.network "private_network", ip: "192.168.56.111"
+    agent.vm.synced_folder "shared", "/vagrant"
+    agent.vm.provision "K3S Agent Mode", type: "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>"192.168.56.111, "SERVER_IP"=>"192.168.56.110", "PATH_SHARED_FOLDER"=>"/vagrant"}
+    agent.vm.hostname = "uzureauSW"
+    agent.vm.provider "virtualbox" do |vb|
+      vb.name = "cuzureauSW"
+      vb.memory = 1024
+      vb.cpus = 1 
+      end
+  end
+
+end
+
+
+
+
+
+
+
+
 
 
 # Configuration des VMs
-Vagrant.configure("2") do |config| # "2" => version de la configuration
+#Vagrant.configure("2") do |config| 
 
-  config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
-  config.vm.box_version = "4.3.8"
-  config.vm.synced_folder "shared", ENV['PATH_SHARED_FOLDER'] # Dossier partagé entre les 2 VMs
+ # config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
+ # config.vm.box_version = "4.3.8"
+ # config.vm.synced_folder "shared", ENV['PATH_SHARED_FOLDER'] # Dossier partagé entre les 2 VMs
 
   # Configuration de la première VM (contrôleur K3s)
-  config.vm.define ENV['SERVER_NAME'] do |server|
-    server.vm.hostname =  ENV['SERVER_NAME']
-    config.vm.network "private_network", ip: ENV['SERVER_IP'] # Réseau privé accessible par IP
-    config.vm.provider ENV['VM_PROVIDER'] do | vb |
+ # config.vm.define ENV['SERVER_NAME'] do |server|
+ #   server.vm.hostname =  ENV['SERVER_NAME']
+ #   config.vm.network "private_network", ip: ENV['SERVER_IP'] # Réseau privé accessible par IP
+ #   config.vm.provider ENV['VM_PROVIDER'] do | vb |
       # vb.customize ["modifyvm", :id, "--name", ENV['SERVER_NAME']]
-      vb.memory = ENV['VM_MEMORY'].to_i
-      vb.cpus = ENV['VM_CPUS'].to_i
-    end
+ #     vb.memory = ENV['VM_MEMORY'].to_i
+ #     vb.cpus = ENV['VM_CPUS'].to_i
+ #   end
     # Configuration du provisionnement pour installer K3s
-    server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>ENV['SERVER_IP'], "PATH_K3S_TOKEN"=>ENV['PATH_K3S_TOKEN'], "PATH_SHARED_FOLDER"=>ENV['PATH_SHARED_FOLDER']}
-  end
+ #   server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>ENV['SERVER_IP'], "PATH_K3S_TOKEN"=>ENV['PATH_K3S_TOKEN'], "PATH_SHARED_FOLDER"=>ENV['PATH_SHARED_FOLDER']}
+ # end
 
   # Configuration de la deuxième VM (agent K3s)
-  config.vm.define ENV['AGENT_NAME'] do |agent|
-    agent.vm.hostname = ENV['AGENT_NAME'] 
-    config.vm.network "private_network", ip: ENV['AGENT_IP'] # Réseau privé accessible par IP
-    config.vm.provider ENV['VM_PROVIDER'] do | vb |
+ # config.vm.define ENV['AGENT_NAME'] do |agent|
+ #   agent.vm.hostname = ENV['AGENT_NAME'] 
+ #   config.vm.network "private_network", ip: ENV['AGENT_IP'] # Réseau privé accessible par IP
+ #   config.vm.provider ENV['VM_PROVIDER'] do | vb |
       # vb.customize ["modifyvm", :id, "--name", ENV['AGENT_NAME']]
-      vb.memory = ENV['VM_MEMORY'].to_i
-      vb.cpus = ENV['VM_CPUS'].to_i
-    end
+  #    vb.memory = ENV['VM_MEMORY'].to_i
+  #    vb.cpus = ENV['VM_CPUS'].to_i
+  #  end
     # Configuration du provisionnement pour rejoindre le cluster K3s
-    agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>ENV['AGENT_IP'], "SERVER_IP"=>ENV['SERVER_IP'], "PATH_SHARED_FOLDER"=>ENV['PATH_SHARED_FOLDER']}
-  end
-end
+  #  agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>ENV['AGENT_IP'], "SERVER_IP"=>ENV['SERVER_IP'], "PATH_SHARED_FOLDER"=>ENV['PATH_SHARED_FOLDER']}
+  #end
+#end
