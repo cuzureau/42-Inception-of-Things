@@ -8,7 +8,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
 
   config.vm.define "cuzureauS" do |server|
     server.vm.network "private_network", ip: "192.168.56.110"
-    server.vm.provision "K3S Controller Mode", type: "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>"192.168.56.110", "PATH_K3S_TOKEN"=>"/var/lib/rancher/k3s/server/node-token", "PATH_SHARED_FOLDER"=>"/vagrant"}
+    server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>"192.168.56.110", "PATH_K3S_TOKEN"=>"/var/lib/rancher/k3s/server/node-token", "PATH_SHARED_FOLDER"=>"/vagrant"}
     server.vm.hostname = "cuzureauS"
     server.vm.provider "virtualbox" do |vb|
       vb.name = "cuzureauS"
@@ -19,7 +19,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
 
   config.vm.define "cuzureauSW" do |agent|
     agent.vm.network "private_network", ip: "192.168.56.111"
-    agent.vm.provision "K3S Agent Mode", type: "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>"192.168.56.111", "SERVER_IP"=>"192.168.56.110", "PATH_SHARED_FOLDER"=>"/vagrant"}
+    agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>"192.168.56.111", "SERVER_IP"=>"192.168.56.110", "PATH_SHARED_FOLDER"=>"/vagrant"}
     agent.vm.hostname = "uzureauSW"
     agent.vm.provider "virtualbox" do |vb|
       vb.name = "cuzureauSW"
@@ -27,7 +27,6 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
       vb.cpus = 1 
       end
   end
-
 end
 
 
