@@ -8,13 +8,13 @@ VM_PROVIDER = "virtualbox"
 VM_MEMORY = 1024 # RAM
 VM_CPUS = 1
 
-PATH_SHARED_FOLDER = "/vagrant"
+PATH_SHARED_FOLDER = "shared"
 PATH_K3S_TOKEN = "/var/lib/rancher/k3s/server/node-token"
 
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
-  config.vm.box = "generic/alpine319"
-  config.vm.synced_folder "shared", PATH_SHARED_FOLDER
+  config.vm.box = "generic/alpine319" # Alpine Linus LTS
+  config.vm.synced_folder PATH_SHARED_FOLDER, PATH_SHARED_FOLDER
 
   config.vm.define SERVER_NAME do |server|
     server.vm.network "private_network", ip: SERVER_IP
