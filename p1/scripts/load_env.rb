@@ -13,6 +13,6 @@ if File.exist?('../confs/env.sh')
     # Supprime les espaces blancs potentiels et stock dans l'ENV
     ENV[key] = value.strip
     puts key
-    put ENV[key]
+    puts ENV[key]
   end
 end
