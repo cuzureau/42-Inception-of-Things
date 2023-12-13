@@ -1,17 +1,19 @@
 # Import de l'environnement
 if File.exist?('./confs/env.sh')
   File.foreach('./confs/env.sh') do |line|
-    puts line
-    # Ignore les lignes vides et les commentaires
+    # Ignorer les lignes vides ou les lignes de commentaire
     next if line.strip.empty? || line.strip.start_with?("#")
-    match = line.match(/^export\s+(\w+)="?(.+?)"?$/)
+    
+    # Utiliser une regex pour ignorer les commentaires de fin de ligne
+    match = line.match(/^export\s+(\w+)="?([^"#]+)"?/)
     next unless match
+    
     key, value = match.captures
-    puts key
-    puts value
-    key = value
+    ENV[key] = value.strip # Supprime les espaces blancs potentiels
+    puts ENV[key]
   end
 end
+
 
 #test
 puts PATH_SHARED_FOLDER
