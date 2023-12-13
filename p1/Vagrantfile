@@ -14,7 +14,7 @@ PATH_K3S_TOKEN = "/var/lib/rancher/k3s/server/node-token"
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
   config.vm.box = "generic/alpine319" # Alpine Linus LTS
-  config.vm.synced_folder PATH_SHARED_FOLDER, PATH_SHARED_FOLDER
+  config.vm.synced_folder PATH_SHARED_FOLDER, "/#{PATH_SHARED_FOLDER}"
 
   config.vm.define SERVER_NAME do |server|
     server.vm.network "private_network", ip: SERVER_IP
