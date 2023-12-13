@@ -6,7 +6,6 @@ sh -s - agent \
     --node-ip $AGENT_IP \
     --flannel-iface=eth1 \
     --server "https://$SERVER_IP:6443" \
-    --token-file $PATH_SHARED_FOLDER/node-token
+    --token-file /$PATH_SHARED_FOLDER/node-token
 
-echo "$(cat /$PATH_SHARED_FOLDER/node-token)"
 echo "[$(hostname)] Configured succesfully"
