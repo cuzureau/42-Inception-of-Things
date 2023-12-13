@@ -9,7 +9,7 @@ if File.exist?('./confs/env.sh')
     key, value = match.captures
     puts key
     puts value
-    ENV[key] = value
+    key = value
   end
 end
 
