@@ -8,4 +8,5 @@ sh -s - agent \
     --server "https://$SERVER_IP:6443" \
     --token-file $PATH_SHARED_FOLDER/node-token
 
+echo "$(cat $PATH_SHARED_FOLDER/node-token)"
 echo "[$(hostname)] Configured succesfully"
