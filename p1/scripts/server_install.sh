@@ -1,6 +1,6 @@
 source ../confs/env.sh
 
-echo "[$(hostname)] Installing K3S on controller."
+echo "[$(hostname)] Installing K3S on server."
 
 # Telechargement et installation de K3s
 curl -sfL https://get.k3s.io |
