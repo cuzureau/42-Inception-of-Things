@@ -9,4 +9,4 @@ export VM_MEMORY=1024 # RAM
 export VM_CPUS=1
 
 export PATH_SHARED_FOLDER="/vagrant"
-export PATH_K3S_TOKEN="/var/lib/rancher/k3s/server/token"
+export PATH_K3S_TOKEN="/var/lib/rancher/k3s/server/node-token"
