@@ -7,6 +7,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
   config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
   config.vm.box_version = "4.3.8"
   config.vm.synced_folder "shared", ENV['PATH_SHARED_FOLDER'] # Dossier partagé entre les 2 VMs
+  config.vm.provision "shell", privileged: true, inline: "systemctl disable firewalld --now"
 
   # Configuration de la première VM (contrôleur K3s)
   config.vm.define ENV['SERVER_NAME'] do |server|
