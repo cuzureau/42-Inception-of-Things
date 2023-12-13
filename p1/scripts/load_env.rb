@@ -1,7 +1,5 @@
-puts "yoooooooooooooooooo"
 # Import de l'environnement
 if File.exist?('./confs/env.sh')
-  puts "FILE EXISTS"
   File.foreach('./confs/env.sh') do |line|
     # Ignorer les lignes vides ou les lignes de commentaire
     next if line.strip.empty? || line.strip.start_with?("#")
@@ -13,8 +11,5 @@ if File.exist?('./confs/env.sh')
     key, value = match.captures
     # Supprime les espaces blancs potentiels et stock dans l'ENV
     ENV[key] = value.strip
-    puts key
-    puts ENV[key]
   end
 end
-puts "BIG FINISH"
