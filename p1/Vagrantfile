@@ -1,10 +1,20 @@
-#require_relative './scripts/load_env.rb'
+SERVER_NAME = "cuzureauS" # "Server"
+AGENT_NAME = "cuzureauSW" # "Server Worker"
 
+SERVER_IP = "192.168.56.110"
+AGENT_IP = "192.168.56.111"
+
+VM_PROVIDER = "virtualbox"
+VM_MEMORY = 1024 # RAM
+VM_CPUS = 1
+
+PATH_SHARED_FOLDER = "/vagrant"
+PATH_K3S_TOKEN = "/var/lib/rancher/k3s/server/node-token"
 
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
   config.vm.box = "generic/alpine319"
-  config.vm.synced_folder "shared", "/vagrant"
+  config.vm.synced_folder "shared", "shared"
 
   config.vm.define "cuzureauS" do |server|
     server.vm.network "private_network", ip: "192.168.56.110"
