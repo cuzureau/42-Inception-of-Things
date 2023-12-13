@@ -25,6 +25,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     end
     # Configuration du provisionnement pour installer K3s
     server.vm.provision "shell", path: "./scripts/server_install.sh"
+  end
 
   # Configuration de la deuxième VM (agent K3s)
   config.vm.define AGENT_NAME do |agent|
