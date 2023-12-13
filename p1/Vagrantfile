@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     server.vm.hostname =  ENV['SERVER_NAME']
     config.vm.network "private_network", ip: ENV['SERVER_IP'] # Réseau privé accessible par IP
     config.vm.provider ENV['VM_PROVIDER'] do | vb |
-      vb.customize ["modifyvm", :id, "--name", ENV['SERVER_NAME']]
+      # vb.customize ["modifyvm", :id, "--name", ENV['SERVER_NAME']]
       vb.memory = ENV['VM_MEMORY'].to_i
       vb.cpus = ENV['VM_CPUS'].to_i
     end
@@ -26,7 +26,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     agent.vm.hostname = ENV['AGENT_NAME'] 
     config.vm.network "private_network", ip: ENV['AGENT_IP'] # Réseau privé accessible par IP
     config.vm.provider ENV['VM_PROVIDER'] do | vb |
-      vb.customize ["modifyvm", :id, "--name", ENV['AGENT_NAME']]
+      # vb.customize ["modifyvm", :id, "--name", ENV['AGENT_NAME']]
       vb.memory = ENV['VM_MEMORY'].to_i
       vb.cpus = ENV['VM_CPUS'].to_i
     end
