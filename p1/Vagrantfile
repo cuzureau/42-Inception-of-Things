@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     master.vm.hostname =  MASTER_NAME 
     config.vm.network "private_network", ip: MASTER_IP # Réseau privé accessible par IP
     config.vm.provider VM_PROVIDER do | vb |
-      vb.name = MASTER_NAME
+      # vb.name = MASTER_NAME
       vb.memory = VM_MEMORY
       vb.cpus = VM_CPUS
       vb.gui = true
@@ -43,7 +43,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     worker.vm.hostname = WORKER_NAME 
     config.vm.network "private_network", ip: WORKER_IP # Réseau privé accessible par IP
     config.vm.provider VM_PROVIDER do | vb |
-      vb.name = WORKER_NAME
+      # vb.name = WORKER_NAME
       vb.memory = VM_MEMORY
       vb.cpus = VM_CPUS
       vb.gui = true
