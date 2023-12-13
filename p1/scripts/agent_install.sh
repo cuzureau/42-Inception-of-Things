@@ -1,5 +1,3 @@
-source ./confs/env.sh
-
 echo "[$(hostname)] Installing K3S on agent."
 
 # telechargement et installation de K3s
