@@ -1,4 +1,4 @@
-source ../confs/env.sh
+source ./confs/env.sh
 
 echo "[$(hostname)] Installing K3S on server."
 
