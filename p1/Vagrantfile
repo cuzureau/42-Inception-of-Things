@@ -28,8 +28,8 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     config.vm.network "private_network", ip: ENV['SERVER_IP'] # Réseau privé accessible par IP
     config.vm.provider ENV['VM_PROVIDER'] do | vb |
       # vb.name = ENV['SERVER_NAME']
-      vb.memory = ENV['VM_MEMORY']
-      vb.cpus = ENV['VM_CPUS']
+      vb.memory = ENV['VM_MEMORY'].to_i
+      vb.cpus = ENV['VM_CPUS'].to_i
       vb.gui = true
     end
     # Configuration du provisionnement pour installer K3s
@@ -42,8 +42,8 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
     config.vm.network "private_network", ip: ENV['AGENT_IP'] # Réseau privé accessible par IP
     config.vm.provider ENV['VM_PROVIDER'] do | vb |
       # vb.name = ENV['AGENT_NAME']
-      vb.memory = ENV['VM_MEMORY']
-      vb.cpus = ENV['VM_CPUS']
+      vb.memory = ENV['VM_MEMORY'].to_i
+      vb.cpus = ENV['VM_CPUS'].to_i
       vb.gui = true
     end
     # Configuration du provisionnement pour rejoindre le cluster K3s
