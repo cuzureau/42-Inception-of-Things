@@ -1,5 +1,3 @@
-source ./confs/env.sh
-
 echo "[$(hostname)] Installing K3S on server."
 
 # Telechargement et installation de K3s
