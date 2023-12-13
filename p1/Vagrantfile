@@ -8,17 +8,17 @@ VM_PROVIDER = "virtualbox"
 VM_MEMORY = 1024 # RAM
 VM_CPUS = 1
 
-PATH_SHARED_FOLDER = "shared"
-PATH_K3S_TOKEN = "/var/lib/rancher/k3s/server/node-token"
+SYNCED_FOLDER = "shared"
+K3S_TOKEN = "/var/lib/rancher/k3s/server/node-token"
 
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
   config.vm.box = "generic/alpine319" # Alpine Linus LTS
-  config.vm.synced_folder PATH_SHARED_FOLDER, "/#{PATH_SHARED_FOLDER}"
+  config.vm.synced_folder SYNCED_FOLDER, "/#{SYNCED_FOLDER}"
 
   config.vm.define SERVER_NAME do |server|
     server.vm.network "private_network", ip: SERVER_IP
-    server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>SERVER_IP, "PATH_K3S_TOKEN"=>PATH_K3S_TOKEN, "PATH_SHARED_FOLDER"=>PATH_SHARED_FOLDER}
+    server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>SERVER_IP, "K3S_TOKEN"=>K3S_TOKEN, "SYNCED_FOLDER"=>SYNCED_FOLDER}
     server.vm.hostname = SERVER_NAME
     server.vm.provider VM_PROVIDER do |vb|
       vb.name = SERVER_NAME
@@ -29,7 +29,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
 
   config.vm.define AGENT_NAME do |agent|
     agent.vm.network "private_network", ip: AGENT_IP
-    agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>AGENT_IP, "SERVER_IP"=>SERVER_IP, "PATH_SHARED_FOLDER"=>PATH_SHARED_FOLDER}
+    agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>AGENT_IP, "SERVER_IP"=>SERVER_IP, "SYNCED_FOLDER"=>SYNCED_FOLDER}
     agent.vm.hostname = AGENT_NAME
     agent.vm.provider VM_PROVIDER do |vb|
       vb.name = AGENT_NAME
