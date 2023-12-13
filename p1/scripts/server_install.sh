@@ -14,6 +14,6 @@ while [ ! -f $PATH_K3S_TOKEN ]; do
 done
 
 # Copie du token K3s dans le dossier partage entre toutes les VMs
-sudo cp $PATH_K3S_TOKEN $PATH_SHARED_FOLDER
+sudo cp $PATH_K3S_TOKEN /$PATH_SHARED_FOLDER
 
 echo "[$(hostname)] Configured succesfully"
