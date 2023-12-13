@@ -1,15 +1,12 @@
-MASTER_NAME = "cuzureauS" # VM "Server"
-WORKER_NAME = "cuzureauSW" # VM "Server Worker"
+# Import de l'environnement
+if File.exist?('../confs/env.sh')
+  File.foreach('../confs/env.sh') do |line|
+    key, value = line.match(/^export\s+(\w+)="?(.+?)"?$/).captures
+    ENV[key] = value
+  end
+end
 
-MASTER_IP = "192.168.56.110"
-WORKER_IP = "192.168.56.111"
-
-VM_PROVIDER = "virtualbox"
-VM_MEMORY = 1024 # RAM
-VM_CPUS = 1
-
-PATH_SHARED_FOLDER = "/vagrant"
-
+# Configuration des VMs
 Vagrant.configure("2") do |config| # "2" => version de la configuration
 
   config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
@@ -17,40 +14,28 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
   config.vm.synced_folder "shared", PATH_SHARED_FOLDER # Dossier partagé entre les 2 VMs
 
   # Configuration de la première VM (contrôleur K3s)
-  config.vm.define MASTER_NAME do |master|
-    master.vm.hostname =  MASTER_NAME 
-    config.vm.network "private_network", ip: MASTER_IP # Réseau privé accessible par IP
+  config.vm.define SERVER_NAME do |server|
+    server.vm.hostname =  SERVER_NAME 
+    config.vm.network "private_network", ip: SERVER_IP # Réseau privé accessible par IP
     config.vm.provider VM_PROVIDER do | vb |
-      # vb.name = MASTER_NAME
+      # vb.name = SERVER_NAME
       vb.memory = VM_MEMORY
       vb.cpus = VM_CPUS
       vb.gui = true
     end
     # Configuration du provisionnement pour installer K3s
-    master.vm.provision "shell", inline: <<-SHELL
-      curl -sfL https://get.k3s.io | sh - # Script d'installation de K3s
-      sudo mkdir -p #{PATH_SHARED_FOLDER}
-      # Boucle pour attendre la création du fichier node-token
-      while [ ! -f /var/lib/rancher/k3s/server/node-token ]; do
-        sleep 1
-      done
-      sudo cp /var/lib/rancher/k3s/server/node-token #{PATH_SHARED_FOLDER}
-    SHELL
-  end
+    server.vm.provision "shell", path: "./scripts/server_install.sh"
 
   # Configuration de la deuxième VM (agent K3s)
-  config.vm.define WORKER_NAME do |worker|
-    worker.vm.hostname = WORKER_NAME 
-    config.vm.network "private_network", ip: WORKER_IP # Réseau privé accessible par IP
+  config.vm.define AGENT_NAME do |agent|
+    agent.vm.hostname = AGENT_NAME 
+    config.vm.network "private_network", ip: AGENT_IP # Réseau privé accessible par IP
     config.vm.provider VM_PROVIDER do | vb |
-      # vb.name = WORKER_NAME
+      # vb.name = AGENT_NAME
       vb.memory = VM_MEMORY
       vb.cpus = VM_CPUS
       vb.gui = true
     end
     # Configuration du provisionnement pour rejoindre le cluster K3s
-    worker.vm.provision "shell", inline: <<-SHELL
-      curl -sfL https://get.k3s.io | K3S_URL=https://#{MASTER_IP}:6443 K3S_TOKEN=$(cat #{PATH_SHARED_FOLDER}/node-token) sh -
-    SHELL
-  end
+    agent.vm.provision "shell", path: "./scripts/agent_install.sh"
 end
