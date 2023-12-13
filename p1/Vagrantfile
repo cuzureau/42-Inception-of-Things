@@ -13,7 +13,7 @@ K3S_TOKEN = "/var/lib/rancher/k3s/server/node-token"
 
 
 Vagrant.configure("2") do |config| # "2" => version de la configuration
-  config.vm.box = "generic/alpine319" # Alpine Linus LTS
+  config.vm.box = "generic/alpine319" # Alpine Linux LTS
   config.vm.synced_folder SYNCED_FOLDER, "/#{SYNCED_FOLDER}"
 
   config.vm.define SERVER_NAME do |server|
