@@ -9,30 +9,27 @@ if File.exist?('./confs/env.sh')
     next unless match
     
     key, value = match.captures
-    ENV[key] = value.strip # Supprime les espaces blancs potentiels
-    puts ENV[key]
+    # Supprime les espaces blancs potentiels et stock dans l'ENV
+    ENV[key] = value.strip
   end
 end
 
-
-#test
-puts PATH_SHARED_FOLDER
 
 # Configuration des VMs
 Vagrant.configure("2") do |config| # "2" => version de la configuration
 
   config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
   config.vm.box_version = "4.3.8"
-  config.vm.synced_folder "shared", PATH_SHARED_FOLDER # Dossier partagé entre les 2 VMs
+  config.vm.synced_folder "shared", ENV[PATH_SHARED_FOLDER] # Dossier partagé entre les 2 VMs
 
   # Configuration de la première VM (contrôleur K3s)
-  config.vm.define SERVER_NAME do |server|
-    server.vm.hostname =  SERVER_NAME 
-    config.vm.network "private_network", ip: SERVER_IP # Réseau privé accessible par IP
-    config.vm.provider VM_PROVIDER do | vb |
-      # vb.name = SERVER_NAME
-      vb.memory = VM_MEMORY
-      vb.cpus = VM_CPUS
+  config.vm.define ENV[SERVER_NAME] do |server|
+    server.vm.hostname =  ENV[SERVER_NAME]
+    config.vm.network "private_network", ip: ENV[SERVER_IP] # Réseau privé accessible par IP
+    config.vm.provider ENV[VM_PROVIDER] do | vb |
+      # vb.name = ENV[SERVER_NAME]
+      vb.memory = ENV[VM_MEMORY]
+      vb.cpus = ENV[VM_CPUS]
       vb.gui = true
     end
     # Configuration du provisionnement pour installer K3s
@@ -40,13 +37,13 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
   end
 
   # Configuration de la deuxième VM (agent K3s)
-  config.vm.define AGENT_NAME do |agent|
-    agent.vm.hostname = AGENT_NAME 
-    config.vm.network "private_network", ip: AGENT_IP # Réseau privé accessible par IP
-    config.vm.provider VM_PROVIDER do | vb |
-      # vb.name = AGENT_NAME
-      vb.memory = VM_MEMORY
-      vb.cpus = VM_CPUS
+  config.vm.define ENV[AGENT_NAME] do |agent|
+    agent.vm.hostname = ENV[AGENT_NAME] 
+    config.vm.network "private_network", ip: ENV[AGENT_IP] # Réseau privé accessible par IP
+    config.vm.provider ENV[VM_PROVIDER] do | vb |
+      # vb.name = ENV[AGENT_NAME]
+      vb.memory = ENV[VM_MEMORY]
+      vb.cpus = ENV[VM_CPUS]
       vb.gui = true
     end
     # Configuration du provisionnement pour rejoindre le cluster K3s
