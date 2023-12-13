@@ -1,17 +1,20 @@
 # Import de l'environnement
 if File.exist?('.confs/env.sh')
   File.foreach('./confs/env.sh') do |line|
+    puts line
     # Ignore les lignes vides et les commentaires
     next if line.strip.empty? || line.strip.start_with?("#")
     match = line.match(/^export\s+(\w+)="?(.+?)"?$/)
     next unless match
     key, value = match.captures
+    puts key
+    puts value
     ENV[key] = value
   end
 end
 
 #test
-puts ENV
+puts PATH_SHARED_FOLDER
 
 # Configuration des VMs
 Vagrant.configure("2") do |config| # "2" => version de la configuration
