@@ -1,4 +1,4 @@
-puts yoooooooooooooooooooooooooooooooo
+puts "yoooooooooooooooooo"
 # Import de l'environnement
 if File.exist?('../confs/env.sh')
   File.foreach('../confs/env.sh') do |line|
