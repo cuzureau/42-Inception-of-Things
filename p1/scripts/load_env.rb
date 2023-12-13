@@ -1,3 +1,4 @@
+puts yoooooooooooooooooooooooooooooooo
 # Import de l'environnement
 if File.exist?('../confs/env.sh')
   File.foreach('../confs/env.sh') do |line|
@@ -11,5 +12,7 @@ if File.exist?('../confs/env.sh')
     key, value = match.captures
     # Supprime les espaces blancs potentiels et stock dans l'ENV
     ENV[key] = value.strip
+    puts key
+    put ENV[key]
   end
 end
