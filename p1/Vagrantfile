@@ -1,6 +1,6 @@
 # Import de l'environnement
-if File.exist?('../confs/env.sh')
-  File.foreach('../confs/env.sh') do |line|
+if File.exist?('./confs/env.sh')
+  File.foreach('./confs/env.sh') do |line|
     key, value = line.match(/^export\s+(\w+)="?(.+?)"?$/).captures
     ENV[key] = value
   end
