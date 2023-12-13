@@ -19,8 +19,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
       vb.gui = true
     end
     # Configuration du provisionnement pour installer K3s
-    server.vm.provision "shell", path: "./confs/env.sh"
-    server.vm.provision "shell", path: "./scripts/server_install.sh"
+    server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>ENV['SERVER_IP'], "PATH_K3S_TOKEN"=>ENV['PATH_K3S_TOKEN'], "PATH_SHARED_FOLDER"=>ENV['PATH_SHARED_FOLDER']}
   end
 
   # Configuration de la deuxième VM (agent K3s)
@@ -34,7 +33,6 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
       vb.gui = true
     end
     # Configuration du provisionnement pour rejoindre le cluster K3s
-    agent.vm.provision "shell", path: "./confs/env.sh"
-    agent.vm.provision "shell", path: "./scripts/agent_install.sh"
+    agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>ENV['AGENT_IP'], "SERVER_IP"=>ENV['SERVER_IP'], "PATH_SHARED_FOLDER"=>ENV['PATH_SHARED_FOLDER']}
   end
 end
