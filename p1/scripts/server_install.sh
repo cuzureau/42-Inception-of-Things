@@ -15,5 +15,6 @@ done
 
 # Copie du token K3s dans le dossier partage entre toutes les VMs
 sudo cp $PATH_K3S_TOKEN $PATH_SHARED_FOLDER
+sudo chmod +r $PATH_SHARED_FOLDER/node-token
 
 echo "[$(hostname)] Configured succesfully"
