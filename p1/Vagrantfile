@@ -1,4 +1,3 @@
-# require_relative './scripts/load_env.rb'
 # Import de l'environnement
 if File.exist?('../confs/env.sh')
   File.foreach('../confs/env.sh') do |line|
@@ -12,43 +11,5 @@ if File.exist?('../confs/env.sh')
     key, value = match.captures
     # Supprime les espaces blancs potentiels et stock dans l'ENV
     ENV[key] = value.strip
-    puts key
-    puts ENV[key]
-  end
-end
-
-# Configuration des VMs
-Vagrant.configure("2") do |config| # "2" => version de la configuration
-
-  config.vm.box = "generic/alpine319" # Alpine Linux LTS (https://vagrantcloud.com/search)
-  config.vm.box_version = "4.3.8"
-  config.vm.synced_folder "shared", ENV['PATH_SHARED_FOLDER'] # Dossier partagé entre les 2 VMs
-
-  # Configuration de la première VM (contrôleur K3s)
-  config.vm.define ENV['SERVER_NAME'] do |server|
-    server.vm.hostname =  ENV['SERVER_NAME']
-    config.vm.network "private_network", ip: ENV['SERVER_IP'] # Réseau privé accessible par IP
-    config.vm.provider ENV['VM_PROVIDER'] do | vb |
-      # vb.name = ENV['SERVER_NAME']
-      vb.memory = ENV['VM_MEMORY']
-      vb.cpus = ENV['VM_CPUS']
-      vb.gui = true
-    end
-    # Configuration du provisionnement pour installer K3s
-    server.vm.provision "shell", path: "./scripts/server_install.sh"
-  end
-
-  # Configuration de la deuxième VM (agent K3s)
-  config.vm.define ENV['AGENT_NAME'] do |agent|
-    agent.vm.hostname = ENV['AGENT_NAME'] 
-    config.vm.network "private_network", ip: ENV['AGENT_IP'] # Réseau privé accessible par IP
-    config.vm.provider ENV['VM_PROVIDER'] do | vb |
-      # vb.name = ENV['AGENT_NAME']
-      vb.memory = ENV['VM_MEMORY']
-      vb.cpus = ENV['VM_CPUS']
-      vb.gui = true
-    end
-    # Configuration du provisionnement pour rejoindre le cluster K3s
-    agent.vm.provision "shell", path: "./scripts/agent_install.sh"
   end
 end
