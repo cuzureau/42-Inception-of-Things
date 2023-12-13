@@ -1,5 +1,4 @@
 # Import de l'environnement
-ENV = []
 if File.exist?('./confs/env.sh')
   File.foreach('./confs/env.sh') do |line|
     # Ignorer les lignes vides ou les lignes de commentaire
