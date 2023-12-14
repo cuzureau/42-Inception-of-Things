@@ -1,3 +1,5 @@
+VM_BOX_NAME = "generic/alpine319" # Alpine Linux LTS
+
 SERVER_NAME = "cuzureauS" # "Server"
 AGENT_NAME = "cuzureauSW" # "Server Worker"
 
