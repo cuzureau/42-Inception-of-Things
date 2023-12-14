@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config| # "2" == version de la configuration
   # Configuration de la première VM (contrôleur K3s)
   config.vm.define SERVER_NAME do |server|
     server.vm.network "private_network", ip: SERVER_IP
-    server.vm.provision "shell", path: "./scripts/server_install.sh", env: SERVER_ENV
+    server.vm.provision "shell", path: SERVER_SCRIPT_PATH, env: SERVER_ENV
     server.vm.hostname = SERVER_NAME
     server.vm.provider VM_PROVIDER do |vb|
       vb.name = SERVER_NAME
@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config| # "2" == version de la configuration
   # Configuration de la deuxième VM (agent K3s)
   config.vm.define AGENT_NAME do |agent|
     agent.vm.network "private_network", ip: AGENT_IP
-    agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: AGENT_ENV
+    agent.vm.provision "shell", path: AGENT_SCRIPT_PATH, env: AGENT_ENV
     agent.vm.hostname = AGENT_NAME
     agent.vm.provider VM_PROVIDER do |vb|
       vb.name = AGENT_NAME
