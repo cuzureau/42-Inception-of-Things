@@ -1,14 +1,15 @@
-require_relative './confs/env.rb'
+require_relative './confs/const.rb' # Creation des constantes
 
-
-Vagrant.configure("2") do |config| # "2" => version de la configuration
+# Configuration commune aux 2 VMs
+Vagrant.configure("2") do |config| # "2" == version de la configuration
   config.vm.box = "generic/alpine319" # Alpine Linux LTS
-  config.vm.synced_folder SYNCED_FOLDER, "/#{SYNCED_FOLDER}"
+  config.vm.synced_folder SYNCED_FOLDER, "/#{SYNCED_FOLDER}" # Dossier dans le repertoire courant & dans chacune des VMs a la racine
   config.vm.provider VM_PROVIDER do |vb|
     vb.memory = VM_MEMORY
     vb.cpus = VM_CPUS
     end
-
+  
+  # Configuration de la première VM (contrôleur K3s)
   config.vm.define SERVER_NAME do |server|
     server.vm.network "private_network", ip: SERVER_IP
     server.vm.provision "shell", path: "./scripts/server_install.sh", env: {"SERVER_IP"=>SERVER_IP, "K3S_TOKEN"=>K3S_TOKEN, "SYNCED_FOLDER"=>SYNCED_FOLDER}
@@ -18,6 +19,7 @@ Vagrant.configure("2") do |config| # "2" => version de la configuration
       end
   end
 
+  # Configuration de la deuxième VM (agent K3s)
   config.vm.define AGENT_NAME do |agent|
     agent.vm.network "private_network", ip: AGENT_IP
     agent.vm.provision "shell", path: "./scripts/agent_install.sh", env: {"AGENT_IP"=>AGENT_IP, "SERVER_IP"=>SERVER_IP, "SYNCED_FOLDER"=>SYNCED_FOLDER}
