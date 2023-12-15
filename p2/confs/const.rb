@@ -6,6 +6,6 @@ VM_PROVIDER = "virtualbox"
 VM_MEMORY = 1024 # RAM
 VM_CPUS = 1
 
-SYNCED_FOLDER = "shared"
+SYNCED_FOLDER = "apps"
 
 SERVER_SCRIPT_PATH = "./scripts/server_install.sh"
