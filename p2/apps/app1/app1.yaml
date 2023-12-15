@@ -1,0 +1,65 @@
+# Définition d'un Service Kubernetes pour exposer app1.
+apiVersion: v1
+kind: Service
+metadata:
+  name: app1  # Nom du service.
+spec:
+  ports:
+  - name: http
+    port: 80          # Port sur lequel le service est exposé à l'intérieur du cluster.
+    targetPort: 80    # Port du conteneur que ce service redirige.
+    protocol: TCP
+  selector:
+    app: app1-label  # Sélectionne les pods ayant ce label.
+
+---
+
+# Définition d'un Deployment pour maintenir votre application en cours d'exécution.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app1-deployment  # Nom du déploiement.
+  labels:
+    app: app1-label
+spec:
+  replicas: 1  # Nombre de réplicas du pod.
+  selector:
+    matchLabels:
+      app: app1-label  # Sélectionne les pods pour ce déploiement.
+  template:
+    metadata:
+      labels:
+        app: app1-label
+    spec:
+      containers:
+      - name: app1
+        image: nginx:1.23.1  # Image Docker utilisée pour le conteneur.
+        ports:
+        - containerPort: 80  # Port que le conteneur expose.
+        volumeMounts:
+          - name: app1-volume
+            mountPath: /usr/share/nginx/html  # Chemin où le volume est monté.
+      volumes:
+        - name: app1-volume
+          configMap:
+            name: app1-configmap  # ConfigMap fournissant les données.
+
+---
+
+# Définition d'une règle Ingress pour accéder à app1 depuis l'extérieur.
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: app1-ingress  # Nom de l'Ingress.
+spec:
+  rules:
+  - host: app1.com  # Hôte pour lequel cette règle est applicable.
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: app-one  # Nom du service à utiliser.
+            port:
+              number: 80  # Port du service.
