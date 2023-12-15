@@ -1,3 +1,7 @@
 - https://github.com/Ant0wan/Inception-of-Things : quoi installer sur le VM globale du projet (Vagrant, etc)
 - https://github.com/aallali/Inception-of-Things/blob/master/en.correction.pdf : pdf de la correction du sujet
 - https://www.youtube.com/watch?v=czMCO1w-xQU&list=PLhW3qG5bs-L9S272lwi9encQOL9nMOnRa&index=1  tuto vagrant indien
+
+- https://app.vagrantup.com/generic/boxes/alpine319 Vagrant Box pour Alpine Linux 3.19
+- https://dev.to/brandonwallace/how-to-install-debian-11-bullseye-expert-mode-minimal-install-10pd - Tuto boot Debian en mode Expert et Minimal
+- https://developer.hashicorp.com/vagrant/install?product_intent=vagrant Instalation deerniere version Vagrant
