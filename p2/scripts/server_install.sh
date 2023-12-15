@@ -7,6 +7,11 @@ sh -s - --write-kubeconfig-mode 644 \
     --bind-address=$SERVER_IP \
     --advertise-address=$SERVER_IP
 
+while [ ! -e /var/lib/rancher/k3s/server/token ]
+do
+    sleep 10
+done
+
 echo "[$(hostname)] Deploying app1"
 kubectl create configmap app1-configmap --from-file=/$SYNCED_FOLDER/app1/index.html
 kubectl apply -f /$SYNCED_FOLDER/app1/app1.yaml
