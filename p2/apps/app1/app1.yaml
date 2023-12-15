@@ -60,6 +60,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: app-one  # Nom du service à utiliser.
+            name: app1  # Nom du service à utiliser.
             port:
               number: 80  # Port du service.
