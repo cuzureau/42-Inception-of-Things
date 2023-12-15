@@ -6,7 +6,7 @@ Vagrant.configure("2") do |config| # "2" == version de la configuration
     server.vm.box = VM_BOX_NAME
     server.vm.network "private_network", ip: SERVER_IP
     server.vm.synced_folder SYNCED_FOLDER, "/#{SYNCED_FOLDER}" # Dossier dans le repertoire courant & dans chacune des VMs a la racine
-    server.vm.provision "shell", path: SERVER_SCRIPT_PATH
+    server.vm.provision "shell", path: SERVER_SCRIPT_PATH, env: SERVER_ENV
     server.vm.hostname = SERVER_NAME
     server.vm.provider VM_PROVIDER do |vb|
       vb.name = SERVER_NAME
