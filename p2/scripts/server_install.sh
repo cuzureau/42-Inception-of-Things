@@ -7,8 +7,9 @@ sh -s - --write-kubeconfig-mode 644 \
 
 while [ ! -e /var/lib/rancher/k3s/server/token ]
 do
-    sleep 15
+    sleep 1
 done
+# sleep 20
 
 echo "[$(hostname)] Deploying app1"
 kubectl create configmap app1-configmap --from-file=/$SYNCED_FOLDER/app1/index.html
