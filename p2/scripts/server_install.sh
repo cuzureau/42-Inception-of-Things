@@ -8,7 +8,7 @@ sh -s - --write-kubeconfig-mode 644 \
 
 while [ ! -e /var/lib/rancher/k3s/server/token ]
 do
-    sleep 1
+    sleep 15
 done
 
 echo "[$(hostname)] Deploying app1"
