@@ -5,11 +5,12 @@ curl -sfL https://get.k3s.io |
 sh -s - --write-kubeconfig-mode 644 \
     --node-ip $SERVER_IP
 
+# Boucle pour attendre la création du token par K3s
 while [ ! -e /var/lib/rancher/k3s/server/token ]
 do
     sleep 1
 done
-# sleep 20
+sleep 20 # Pour que le apiserver ai le temps d'etre up
 
 echo "[$(hostname)] Deploying app1"
 kubectl create configmap app1-configmap --from-file=/$SYNCED_FOLDER/app1/index.html
