@@ -3,9 +3,7 @@ echo "[$(hostname)] Installing K3S on server."
 # Telechargement et installation de K3s
 curl -sfL https://get.k3s.io |
 sh -s - --write-kubeconfig-mode 644 \
-    --node-ip $SERVER_IP \
-    --bind-address=$SERVER_IP \
-    --advertise-address=$SERVER_IP
+    --node-ip $SERVER_IP
     
 # Boucle pour attendre la création du token par K3s
 while [ ! -f $K3S_TOKEN ]; do
