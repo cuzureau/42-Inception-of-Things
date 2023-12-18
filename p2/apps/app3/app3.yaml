@@ -53,7 +53,7 @@ metadata:
   name: app3-ingress  # Nom de l'Ingress.
 spec:
   rules:
-    http:
+  - http:
       paths:
       - path: /
         pathType: Prefix
