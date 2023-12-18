@@ -20,8 +20,8 @@ echo "[$(hostname)] Deploying app2"
 kubectl create configmap app2-configmap --from-file=/$SYNCED_FOLDER/app2/index.html
 kubectl apply -f /$SYNCED_FOLDER/app2/app2.yaml
 
-# echo "[$(hostname)] Deploying app3"
-# kubectl create configmap app3-configmap --from-file=/$SYNCED_FOLDER/app3/index.html
-# kubectl apply -f /$SYNCED_FOLDER/app3/app3.yaml
+echo "[$(hostname)] Deploying app3"
+kubectl create configmap app3-configmap --from-file=/$SYNCED_FOLDER/app3/index.html
+kubectl apply -f /$SYNCED_FOLDER/app3/app3.yaml
 
 echo "[$(hostname)] Configured succesfully"
