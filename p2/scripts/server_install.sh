@@ -12,6 +12,8 @@ do
     sleep 10
 done
 
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+
 echo "[$(hostname)] Deploying app1"
 kubectl create configmap app1-configmap --from-file=/$SYNCED_FOLDER/app1/index.html
 kubectl apply -f /$SYNCED_FOLDER/app1/app1.yaml
