@@ -3,8 +3,7 @@ echo "[$(hostname)] Installing K3S on server."
 # Telechargement et installation de K3s
 curl -sfL https://get.k3s.io |
 sh -s - --write-kubeconfig-mode 644 \
-    --node-ip $SERVER_IP \
-    --flannel-iface=eth1
+    --node-ip $SERVER_IP
 
 while [ ! -e /var/lib/rancher/k3s/server/token ]
 do
