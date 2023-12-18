@@ -9,10 +9,8 @@ sh -s - --write-kubeconfig-mode 644 \
 
 while [ ! -e /var/lib/rancher/k3s/server/token ]
 do
-    sleep 10
+    sleep 1
 done
-
-kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 echo "[$(hostname)] Deploying app1"
 kubectl create configmap app1-configmap --from-file=/$SYNCED_FOLDER/app1/index.html
